@@ -17,4 +17,6 @@ public:
     static void xoaHangHoa(string ma);
     static void capNhatSoLuong(string ma, int soluong);
     static int soHangHoa(); 
+    void timkiemhanghoa(string strTenHangHoa);
+    void inhanghoasaukhisapxep();
 };

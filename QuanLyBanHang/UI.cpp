@@ -11,6 +11,7 @@
 #include <chrono>
 #include <thread>
 #include <typeinfo>
+#include "HangHoa.h"
 
 using namespace std;
 
@@ -237,6 +238,10 @@ void UI::renderTimKiem()
 	string strTenHangHoa;
 	cout << "Nhap Ten Hang Hoa Can Tim Kiem: ";
 	getline(cin, strTenHangHoa);
+	cout << endl;
+	HangHoa hanghoa;
+	hanghoa.timkiemhanghoa(strTenHangHoa);
+	cout << endl;
 	int iChoice;
 	cout << "Do you want go back to main menu ? press 1 for yes, 0 for no" << endl;
 	cout << "Choise: ";
@@ -270,6 +275,8 @@ void UI::renderDSHangHoa()
 		}
 	}
 	cout << endl;
+	HangHoa hanghoa;
+	hanghoa.inhanghoasaukhisapxep();
 	int iChoice;
 	cout << "Do you want go back to main menu ? press 1 for yes, 0 for no" << endl;
 	cout << "Choise: ";
