@@ -22,25 +22,25 @@ Admin::Admin(const Admin& admin)
 
 Admin::~Admin() {}
 std::string Admin::getPassword() {
-    std::string password;
+    std::string strPassword;
     char ch;
 
     std::cout << "Enter password (Enter ESC to Exit): ";
     while ((ch = _getch()) != '\r') { // '\r' l� k� t? k?t th�c (Enter)
         if (ch == 8) { // X? l� k� t? Backspace
-            if (!password.empty()) {
-                password.pop_back();
+            if (!strPassword.empty()) {
+                strPassword.pop_back();
                 std::cout << "\b \b"; // X�a k� t? cu?i c�ng tr�n m�n h�nh
             }
         }
         else {
-            password += ch;
+            strPassword += ch;
             std::cout << '*';
         }
     }
     std::cout << std::endl;
     std::cin.clear();
-    return password;
+    return strPassword;
 }
 
 bool Admin::login()
@@ -51,7 +51,7 @@ bool Admin::login()
     int iCount = 0;
     while (iCount < 3)
     {
-        ifAdminFile.open("admin.txt", std::ios::in);
+        ifAdminFile.open("Admin.txt", std::ios::in);
         std::string strID;
         std::cout << "Enter ID: ";
         getline(std::cin, strID);
@@ -118,29 +118,29 @@ void Admin::renderXuLyDonHang()
     }
 
     std::cout << std::endl;
-    DonHang a;
-    std::ifstream orderFile("DonHang.txt");
-    if (orderFile.is_open())
+    DonHang donhang;
+    std::ifstream iOrderFile("DonHang.txt");
+    if (iOrderFile.is_open())
     {
-        std::string orderInfo;
+        std::string strOrderInfo;
         std::cout << "Nhung don dat hang: \n";
-        while (getline(orderFile, orderInfo))
+        while (getline(iOrderFile, strOrderInfo))
         {
-            std::cout << orderInfo << std::endl;
+            std::cout << strOrderInfo << std::endl;
         }
-        orderFile.close();
+        iOrderFile.close();
     }
-    a.XuLyDonHang();
-    int iChoice;
+    donhang.xuLyDonHang();
+    int iChoise;
     std::cout << "Do you want go back to main menu ? press 1 for yes, 0 for no" << std::endl;
     std::cout << "Choise: ";
-    std::cin >> iChoice;
-    if (iChoice == 1)
+    std::cin >> iChoise;
+    if (iChoise == 1)
     {
         system("cls");
         Admin::renderMenuAdmin();
     }
-    else if (iChoice == 0)
+    else if (iChoise == 0)
         ui.renderGoodByeScreen();
 }
 void Admin::renderQuanLyHangHoa()
@@ -242,24 +242,24 @@ void Admin::renderTaoHangHoa()
     }
     std::cout << std::endl;
     std::cout << "Xin moi nhap thong tin cua san pham: " << std::endl;
-        std::string name, origin, color, entryDate;
-        int amount, price;
+        std::string strName, strOrigin, strColor, strEntryDate;
+        int iAmount, iPrice;
         std::cout << "Ten hang hoa: ";
         std::cin.ignore();
-        getline(std::cin, name);
+        getline(std::cin, strName);
         std::cout << "Noi san xuat: ";
-        getline(std::cin, origin);
+        getline(std::cin, strOrigin);
         std::cout << "Mau sac: ";
-        getline(std::cin, color);
+        getline(std::cin, strColor);
         std::cout << "So luong: ";
-        std::cin >> amount;
+        std::cin >> iAmount;
         std::cout << "Ngay nhap kho: ";
         std::cin.ignore();
-        getline(std::cin, entryDate);
+        getline(std::cin, strEntryDate);
         std::cout << "Gia: ";
-        std::cin >> price;
+        std::cin >> iPrice;
         HangHoa newHangHoa;
-        newHangHoa.taoHangHoa(name, origin, color, price, entryDate, amount);
+        newHangHoa.taoHangHoa(strName, strOrigin, strColor, iPrice, strEntryDate, iAmount);
         std::cout << std::endl;
         std::cout << "Hang Hoa Da Duoc Them Thanh Cong" << std::endl;
         int iChoice;
@@ -295,11 +295,17 @@ void Admin::renderXoaHangHoa()
     }
     std::cout << std::endl;
     int iChoice;
-    string ma;
+    string strMa;
+    Loop:
     cout << "Nhap ma hang hoa ban muon xoa: ";
     cin.ignore();
-    getline(std::cin, ma);
-    HangHoa::xoaHangHoa(ma);
+    getline(std::cin, strMa);
+    if (strMa.length() != 4)
+    {
+        cout << "Nhap sai. Ma hang hoa phai dung 4 ky tu" << endl;
+        goto Loop;
+    }
+    HangHoa::xoaHangHoa(strMa);
     std::cout << std::endl;
     std::cout << "Do you want go back to main menu ? press 1 for yes, 0 for no" << std::endl;
     std::cout << "Choise: ";
@@ -332,14 +338,20 @@ void Admin::renderCapNhatSoLuongHangHoa(){
         }                                               
     }
     cout << endl;
-    string ma;
-    int soluong;
+    string strMa;
+    int iSoLuong;
+    Loop:
     cout << "Nhap so ma hang hoa can cap nhat: ";
     cin.ignore();
-    getline(cin,ma);
+    getline(cin,strMa);
+    if (strMa.length() != 4)
+    {
+        cout << "Nhap sai. Ma hang hoa phai dung 4 ky tu" << endl;
+        goto Loop;
+    }
     cout << "Nhap so luong: ";
-    cin >> soluong;
-    HangHoa::capNhatSoLuong(ma,soluong);
+    cin >> iSoLuong;
+    HangHoa::capNhatSoLuong(strMa,iSoLuong);
     int iChoice;
     std::cout << std::endl;
     std::cout << "Do you want go back to main menu ? press 1 for yes, 0 for no" << std::endl;

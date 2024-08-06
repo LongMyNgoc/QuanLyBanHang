@@ -188,8 +188,8 @@ void UI::renderDatHang()
 		}
 	}
 	cout << endl;
-	DonHang a;
-	a.NhapThongTinDonHang();
+	DonHang donhang;
+	donhang.nhapThongTinDonHang();
 	string choice;
 	while(true){
 		cout << "Ban muon dat hang tiep hong ne: \n" ;
@@ -197,11 +197,11 @@ void UI::renderDatHang()
 		cin >> choice ;
 		if ( choice == "yes" ) {
 			Order::orderNumber--;
-			a.NhapThongTinDonHang();
+			donhang.nhapThongTinDonHang();
 		}
 		else break;
 	}
-	a.LuuDonHang();
+	donhang.luuDonHang();
 	int iChoice;
 	cout << "Do you want go back to main menu ? press 1 for yes, 0 for no" << endl;
 	cout << "Choise: ";
@@ -240,7 +240,7 @@ void UI::renderTimKiem()
 	getline(cin, strTenHangHoa);
 	cout << endl;
 	HangHoa hanghoa;
-	hanghoa.timkiemhanghoa(strTenHangHoa);
+	hanghoa.timKiemHangHoa(strTenHangHoa);
 	cout << endl;
 	int iChoice;
 	cout << "Do you want go back to main menu ? press 1 for yes, 0 for no" << endl;
@@ -276,7 +276,7 @@ void UI::renderDSHangHoa()
 	}
 	cout << endl;
 	HangHoa hanghoa;
-	hanghoa.inhanghoasaukhisapxep();
+	hanghoa.printList();
 	cout << endl;
 	int iChoice;
 	cout << "Do you want go back to main menu ? press 1 for yes, 0 for no" << endl;

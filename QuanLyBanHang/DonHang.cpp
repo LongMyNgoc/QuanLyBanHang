@@ -25,7 +25,7 @@ DonHang::~DonHang()
         current = next;
     }
 }
-bool DonHang::KiemTraHangHoa(std::string productCodes)
+bool DonHang::kiemTraHangHoa(std::string productCodes)
 {
     std::ifstream inFile("DanhSachHangHoa.txt");
     if (!inFile)
@@ -50,10 +50,10 @@ bool DonHang::KiemTraHangHoa(std::string productCodes)
     return false; // Sản phẩm không có sẵn
 }
 // Hàm đặt hàng
-void DonHang::DatHang(std::string productCodes, int quantity, std::string Color, std::string Country, const std::string &customerName, const std::string &customerAddress, const std::string &phoneNumber, const std::string &orderDate)
+void DonHang::datHang(std::string productCodes, int quantity, std::string Color, std::string Country, const std::string &customerName, const std::string &customerAddress, const std::string &phoneNumber, const std::string &orderDate)
 {
     // Tạo đơn hàng mới
-    if (!KiemTraHangHoa(productCodes))
+    if (!kiemTraHangHoa(productCodes))
     {
         std::cerr << "Hết hàng!" << std::endl;
         return;
@@ -92,7 +92,7 @@ void DonHang::DatHang(std::string productCodes, int quantity, std::string Color,
 }
 
 // Hàm lưu đơn hàng vào file
-void DonHang::LuuDonHang()
+void DonHang::luuDonHang()
 {
     std::ofstream outFile("DonHang.txt", std::ios::app);
     if (!outFile)
@@ -120,7 +120,7 @@ void DonHang::LuuDonHang()
 }
 
 // Hàm nhập thông tin đơn hàng từ người dùng
-void DonHang::NhapThongTinDonHang()
+void DonHang::nhapThongTinDonHang()
 {
     std::string productCodes;
     int quantity;
@@ -149,9 +149,9 @@ void DonHang::NhapThongTinDonHang()
     std::cout << "Nhap ngay dat hang: ";
     std::getline(std::cin, orderDate);
 
-    DatHang(productCodes, quantity, Color, Country, customerName, customerAddress, phoneNumber, orderDate);
+    datHang(productCodes, quantity, Color, Country, customerName, customerAddress, phoneNumber, orderDate);
 }
-void DonHang::CapNhatSoLuongHangHoa(std::string productCodes, int quantityChange)
+void DonHang::capNhatSoLuongHangHoa(std::string productCodes, int quantityChange)
 {
     std::ifstream inFile("DanhSachHangHoa.txt");
     if (!inFile)
@@ -202,7 +202,7 @@ void DonHang::CapNhatSoLuongHangHoa(std::string productCodes, int quantityChange
     std::ofstream tempFileClear("TempDanhSachHangHoa.txt", std::ios::trunc);
 }
 
-void DonHang::XuLyDonHang()
+void DonHang::xuLyDonHang()
 {
     std::ifstream inFile("DonHang.txt");
     std::string line;
@@ -262,7 +262,7 @@ void DonHang::XuLyDonHang()
         // Cap nhat so luong hang hoa trong file DanhSachHangHoa.txt
         if (strcmp(current->orderNumberStr, "0001") == 0)
         {
-            CapNhatSoLuongHangHoa(current->productCodes, -current->quantity);
+            capNhatSoLuongHangHoa(current->productCodes, -current->quantity);
         }
         else
         {

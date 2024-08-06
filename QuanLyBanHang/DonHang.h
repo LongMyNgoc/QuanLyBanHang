@@ -21,12 +21,12 @@ class DonHang {
 public:
     DonHang();
     ~DonHang();
-    void DatHang(std::string productCodes, int quantity, std::string Color , std::string Country, const std::string& customerName, const std::string& customerAddress, const std::string& phoneNumber, const std::string& orderDate);
-    void LuuDonHang();
-    void NhapThongTinDonHang();
-    bool KiemTraHangHoa(std::string productCodes);
-    void CapNhatSoLuongHangHoa(std::string productCodes, int quantityChange);
-    void XuLyDonHang();
+    void datHang(std::string productCodes, int quantity, std::string Color , std::string Country, const std::string& customerName, const std::string& customerAddress, const std::string& phoneNumber, const std::string& orderDate);
+    void luuDonHang();
+    void nhapThongTinDonHang();
+    bool kiemTraHangHoa(std::string productCodes);
+    void capNhatSoLuongHangHoa(std::string productCodes, int quantityChange);
+    void xuLyDonHang();
 private:
     Order* head;
     int orderCount;

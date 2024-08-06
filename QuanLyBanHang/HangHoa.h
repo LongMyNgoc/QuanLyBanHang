@@ -14,10 +14,11 @@ private:
 public:
     HangHoa() {}
     ~HangHoa() {}
-    void taoHangHoa(string name, string origin, string color, int price, string entryDate, int amount);
-    static void xoaHangHoa(string ma);
-    static void capNhatSoLuong(string ma, int soluong);
+    void taoHangHoa(string strName, string strOrigin, string strColor, int iPrice, string strEntryDate, int iAmount);
+    static void xoaHangHoa(string strMa);
+    static void capNhatSoLuong(string strMa, int iSoLuong);
     static int soHangHoa(); 
-    void timkiemhanghoa(string strTenHangHoa);
-    void inhanghoasaukhisapxep();
+    void timKiemHangHoa(string strTenHangHoa);
+    void printList();
+    void sort();
 };
