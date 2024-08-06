@@ -128,56 +128,105 @@ void HangHoa::capNhatSoLuong(string ma, int soluong) {
     }
 }
 
-void HangHoa::timkiemhoanghoa() {
-    ifstream input("TiemKiemHangHoa.txt");
-    ofstream output("TiemKiemHangHoa.txt");
-    string tentimkiem;
-    if (!input || !output) {
-        cerr << "Không thể mở file!" << endl;
-        return;
-    }
-    input >> tentimkiem;
-    bool timthay = false;
+void HangHoa::timkiemhanghoa() {
+        ifstream inputdata("DanhSachHangHoa.txt");
+        ifstream input("TimKiemHangHoa.txt");
+        ofstream output("TimKiemHangHoa.txt");
+        string ten;
+        input >> ten;
+    bool khongtontai = true;
+    for (int i = 0; i < soHangHoa(); i++) {
+        string id, name, origin, color, entryDate;
+        int price , amount;
+        inputdata >> id >> name >> origin >> color >> price >> entryDate >> amount;
+        if (name == ten) {
+            int dorongcuama = 10;
+            int dorongcuaten = 20;
+            int dorongcuaorigin = 20;
+            int dorongcuacolor = 10;
+            int dorongcuaentrydate = 15;
+            int dorongcuagia = 15;
+            int dorongcuaamount = 25;
+            output << std::left << std::setw(dorongcuama) << "Ma"
+                << std::left << std::setw(dorongcuaten) << "Name"
+                << std::left << std::setw(dorongcuaorigin) << "Origin"
+                << std::left << std::setw(dorongcuacolor) << "Color"
+                << std::left << std::setw(dorongcuagia) << "Price"
+                << std::left << std::setw(dorongcuaentrydate) << "EntryDate"
+                << std::left << std::setw(dorongcuaamount) << "Amount"
+                << std::endl;
 
-    HangHoa* hangcantim = head;
-    while (hangcantim != NULL) {
-        if (hangcantim->name == tentimkiem) {
-            timthay = true;
+            output << std::setfill('-') << std::setw(dorongcuama) << ""
+                << std::setw(dorongcuaten) << ""
+                << std::setw(dorongcuaorigin) << ""
+                << std::setw(dorongcuacolor) << ""
+                << std::setw(dorongcuagia) << ""
+                << std::setw(dorongcuaentrydate) << ""
+                << std::setw(dorongcuaamount) << ""
+                << std::setfill(' ') << std::endl;
+
+            output << std::left << std::setw(dorongcuama) << id
+                << std::left << std::setw(dorongcuaten) << name
+                << std::left << std::setw(dorongcuaorigin) << origin
+                << std::left << std::setw(dorongcuacolor) << color
+                << std::left << std::setw(dorongcuagia) << price
+                << std::left << std::setw(dorongcuaentrydate) << entryDate
+                << std::left << std::setw(dorongcuaamount) << amount
+                << std::endl;
+            bool khongtontai = false;
             break;
         }
-        hangcantim = hangcantim->next;
     }
-
-    if (!timthay) {
-        output << "Không tìm thấy hàng hóa." << endl;
-    }
-    else {
-        int dorongcuama = 10;
-        int dorongcuaten = 20;
-        int dorongcuaorigin = 20;
-        int dorongcuacolor = 10;
-        int dorongcuaentrydate = 15;
-        output << std::left << std::setw(dorongcuama) << "Ma"
-            << std::left << std::setw(dorongcuaten) << "Name"
-            << std::left << std::setw(dorongcuaorigin) << "Origin"
-            << std::left << std::setw(dorongcuacolor) << "Color"
-            << std::left << std::setw(dorongcuaentrydate) << "EntryDate"
-            << std::endl;
-
-        output << std::setfill('-') << std::setw(dorongcuama) << ""
-            << std::setw(dorongcuaten) << ""
-            << std::setw(dorongcuaorigin) << ""
-            << std::setw(dorongcuacolor) << ""
-            << std::setw(dorongcuaentrydate) << ""
-            << std::setfill(' ') << std::endl;
-
-        output << std::left << std::setw(dorongcuama) << hangcantim->ma
-            << std::left << std::setw(dorongcuaten) << hangcantim->name
-            << std::left << std::setw(dorongcuaorigin) << hangcantim->origin
-            << std::left << std::setw(dorongcuacolor) << hangcantim->color
-            << std::left << std::setw(dorongcuaentrydate) << hangcantim->entryDate
-            << std::endl;
-    }
+    if (khongtontai) output << "khong tim thay hang hoa";
+    inputdata.close();
     input.close();
     output.close();
 }
+
+void HangHoa::inhanghoasaukhisapxep() {
+    ifstream input("DanhSachHangHoa.txt");
+    ofstream output("DSHangHoa.txt");
+
+    if (!input.is_open() || !output.is_open()) {
+        cerr << "Failed to open file" << endl;
+        return;
+    }
+
+    int soLuong = soHangHoa();
+    if (soLuong == 0) {
+        output << "Khong co hang hoa nao de sap xep" << endl;
+        input.close();
+        output.close();
+        return;
+    }
+
+    struct product{
+        string id, name, origin, color, entryDate;
+        int price , amount;
+    };
+    product* products = new product[soHangHoa()];
+    int soLuong = soHangHoa();
+
+    for (int i = 0; i < soLuong ; ++i) {
+        input >> products[i].id >> products[i].name >> products[i].origin >> products[i].color >> products[i].entryDate >> products[i].amount;
+    }
+    for (int i = 0; i < soLuong - 1; ++i) {
+        for (int j = 0; j < soLuong - i - 1; ++j) {
+            if (products[j].name > products[j + 1].name) {
+                product temp = products[j];
+                products[j] = products[j + 1];
+                products[j + 1] = temp;
+            }
+        }
+    }
+    for (int i = 0; i < soLuong; ++i) {
+        output << products[i].id << products[i].name  << products[i].origin
+            << products[i].color << products[i].price << products[i].entryDate
+            << products[i].amount << endl;
+    }
+    input.close();
+    output.close();
+    delete[] products;
+}
+
+
