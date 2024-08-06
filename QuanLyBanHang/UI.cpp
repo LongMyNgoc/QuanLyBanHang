@@ -277,6 +277,7 @@ void UI::renderDSHangHoa()
 	cout << endl;
 	HangHoa hanghoa;
 	hanghoa.inhanghoasaukhisapxep();
+	cout << endl;
 	int iChoice;
 	cout << "Do you want go back to main menu ? press 1 for yes, 0 for no" << endl;
 	cout << "Choise: ";

@@ -6,6 +6,7 @@
 #include <thread>
 #include <chrono>
 #include <iomanip>
+
 Stack<string> HangHoa::_deletedIDs;
 
 int HangHoa::soHangHoa() {
@@ -131,13 +132,6 @@ void HangHoa::capNhatSoLuong(string ma, int soluong) {
 void HangHoa::timkiemhanghoa(string strTenHangHoa) {
         ifstream inputdata("DanhSachHangHoa.txt");
     bool khongtontai = true;
-    int dorongcuama = 10;
-    int dorongcuaten = 20;
-    int dorongcuaorigin = 20;
-    int dorongcuacolor = 10;
-    int dorongcuaentrydate = 15;
-    int dorongcuagia = 15;
-    int dorongcuaamount = 25;
     for (int i = 0; i < soHangHoa(); i++) {
         string id, name, origin, color, entryDate;
         int price , amount;
@@ -187,45 +181,48 @@ void HangHoa::timkiemhanghoa(string strTenHangHoa) {
 }
 
 void HangHoa::inhanghoasaukhisapxep() {
-    ifstream input("DanhSachHangHoa.txt");
-
-    if (!input.is_open()) {
-        cerr << "Failed to open file" << endl;
-        return;
-    }
-
-    int soLuong = HangHoa::soHangHoa();
-    if (soLuong == 0) {
-        cout << "Khong co hang hoa nao de sap xep" << endl;
-        input.close();
-        return;
-    }
-
-    struct product{
+    ifstream inputdata("DanhSachHangHoa.txt");
+ 
+    for (int i = 0; i < soHangHoa(); i++) {
         string id, name, origin, color, entryDate;
-        int price , amount;
-    };
-    product* products = new product[soHangHoa()];
-
-    for (int i = 0; i < soLuong ; ++i) {
-        input >> products[i].id >> products[i].name >> products[i].origin >> products[i].color >> products[i].entryDate >> products[i].amount;
-    }
-    for (int i = 0; i < soLuong - 1; ++i) {
-        for (int j = 0; j < soLuong - i - 1; ++j) {
-            if (products[j].name > products[j + 1].name) {
-                product temp = products[j];
-                products[j] = products[j + 1];
-                products[j + 1] = temp;
+        int price, amount;
+        inputdata >> id >> name >> origin >> color >> price >> entryDate >> amount;
+            int dorongcuama = 10;
+            int dorongcuaten = 20;
+            int dorongcuaorigin = 20;
+            int dorongcuacolor = 10;
+            int dorongcuaentrydate = 15;
+            int dorongcuagia = 15;
+            int dorongcuaamount = 25;
+            if (i == 0) {
+                cout << std::left << std::setw(dorongcuama) << "Ma"
+                    << std::left << std::setw(dorongcuaten) << "Name"
+                    << std::left << std::setw(dorongcuaorigin) << "Origin"
+                    << std::left << std::setw(dorongcuacolor) << "Color"
+                    << std::left << std::setw(dorongcuagia) << "Price"
+                    << std::left << std::setw(dorongcuaentrydate) << "EntryDate"
+                    << std::left << std::setw(dorongcuaamount) << "Amount"
+                    << std::endl;
             }
-        }
+            cout << std::setfill('-') << std::setw(dorongcuama) << ""
+                << std::setw(dorongcuaten) << ""
+                << std::setw(dorongcuaorigin) << ""
+                << std::setw(dorongcuacolor) << ""
+                << std::setw(dorongcuagia) << ""
+                << std::setw(dorongcuaentrydate) << ""
+                << std::setw(dorongcuaamount) << ""
+                << std::setfill(' ') << std::endl;
+
+            cout << std::left << std::setw(dorongcuama) << id
+                << std::left << std::setw(dorongcuaten) << name
+                << std::left << std::setw(dorongcuaorigin) << origin
+                << std::left << std::setw(dorongcuacolor) << color
+                << std::left << std::setw(dorongcuagia) << price
+                << std::left << std::setw(dorongcuaentrydate) << entryDate
+                << std::left << std::setw(dorongcuaamount) << amount
+                << std::endl;
     }
-    for (int i = 0; i < soLuong; ++i) {
-        cout << products[i].id << products[i].name  << products[i].origin
-            << products[i].color << products[i].price << products[i].entryDate
-            << products[i].amount << endl;
-    }
-    input.close();
-    delete[] products;
+    inputdata.close();
 }
 
 
