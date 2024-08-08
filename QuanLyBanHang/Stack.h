@@ -14,10 +14,10 @@ private:
         friend Stack;
     };
 
-    Node* top;
+    Node* _pTop;
 
 public:
-    Stack() : top(NULL) {}
+    Stack() : _pTop(NULL) {}
     
     ~Stack() {
         while (!isEmpty()) {
@@ -26,21 +26,21 @@ public:
     }
 
     void push(const T& val) {
-        top = new Node(val, top);
+        _pTop = new Node(val, _pTop);
     }
 
     T pop() {
         if (isEmpty()) {
             throw runtime_error("Stack underflow");
         }
-        Node* tmp = top;
-        T val = top->_data;
-        top = top->_pNext;
-        delete tmp;
+        Node* pTemp = _pTop;
+        T val = _pTop->_data;
+        _pTop = _pTop->_pNext;
+        delete pTemp;
         return val;
     }
 
     bool isEmpty() const {
-        return top == NULL;
+        return _pTop == NULL;
     }
 };
