@@ -196,7 +196,7 @@ void UI::renderDatHang()
 		cout << "Neu muon thi go yes khong la no: ";
 		cin >> choice ;
 		if ( choice == "yes" ) {
-			Order::orderNumber--;
+			Order::iOrderNumber--;
 			donhang.nhapThongTinDonHang();
 		}
 		else break;

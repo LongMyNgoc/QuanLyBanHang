@@ -267,23 +267,27 @@ void HangHoa::sort()
         {
             for (Node* pNode1 = _pHead; pNode1 != NULL; pNode1 = pNode1->_pNext)
             {
+                int iAmount1 = 1000;
                 stringstream ss1(pNode1->_strData);
                 string str1;
                 ss1 >> str1;
                 int iData1 = 0;
                 for (int i = 0; i < str1.length(); i++)
                 {
-                    iData1 += (int)str1[i];
+                    iData1 += (((int)str1[i]-48)*iAmount1);
+                    iAmount1 /= 10;
                 }
                 for (Node* pNode2 = pNode1->_pNext; pNode2 != NULL; pNode2 = pNode2->_pNext)
                 {
+                    int iAmount2 = 1000;
                     stringstream ss2(pNode2->_strData);
                     string str2;
                     ss2 >> str2;
                     int iData2 = 0;
                     for (int j = 0; j < str2.length(); j++)
                     {
-                        iData2 += (int)str2[j];
+                        iData2 += (((int)str2[j]-48)*iAmount2);
+                        iAmount2 /= 10;
                     }
                     if (iData2 < iData1)
                     {

@@ -5,27 +5,27 @@
 #include <sstream>
 #include <string>
 // Khởi tạo biến tĩnh orderNumber
-int Order::orderNumber = 1;
+int Order::iOrderNumber = 1;
 
 // Constructor
 DonHang::DonHang()
 {
-    head = nullptr;
-    orderCount = 0;
+    pHead = nullptr;
+    iOrderCount = 0;
 }
 
 // Destructor
 DonHang::~DonHang()
 {
-    Order *current = head;
-    while (current != nullptr)
+    Order *pCurrent = pHead;
+    while (pCurrent != nullptr)
     {
-        Order *next = current->next;
-        delete current;
-        current = next;
+        Order *pTemp = pCurrent->pNext;
+        delete pCurrent;
+        pCurrent = pTemp;
     }
 }
-bool DonHang::kiemTraHangHoa(std::string productCodes)
+bool DonHang::kiemTraHangHoa(std::string strProductCodes)
 {
     std::ifstream inFile("DanhSachHangHoa.txt");
     if (!inFile)
@@ -34,14 +34,14 @@ bool DonHang::kiemTraHangHoa(std::string productCodes)
         return false;
     }
 
-    std::string line;
-    while (std::getline(inFile, line))
+    std::string strLine;
+    while (std::getline(inFile, strLine))
     {
-        std::istringstream iss(line);
-        std::string code, ordernumber;
-        if (iss >> ordernumber >> code)
+        std::istringstream iss(strLine);
+        std::string strCode, strOrdernumber;
+        if (iss >> strOrdernumber >> strCode)
         {
-            if (code == productCodes)
+            if (strCode == strProductCodes)
             {
                 return true; // Sản phẩm có sẵn
             }
@@ -50,44 +50,44 @@ bool DonHang::kiemTraHangHoa(std::string productCodes)
     return false; // Sản phẩm không có sẵn
 }
 // Hàm đặt hàng
-void DonHang::datHang(std::string productCodes, int quantity, std::string Color, std::string Country, const std::string &customerName, const std::string &customerAddress, const std::string &phoneNumber, const std::string &orderDate)
+void DonHang::datHang(std::string strProductCodes, int iQuantity, std::string strColor, std::string strCountry, const std::string &strCustomerName, const std::string &strCustomerAddress, const std::string &strPhoneNumber, const std::string &strOrderDate)
 {
     // Tạo đơn hàng mới
-    if (!kiemTraHangHoa(productCodes))
+    if (!kiemTraHangHoa(strProductCodes))
     {
         std::cerr << "Hết hàng!" << std::endl;
         return;
     }
     Order *newOrder = new Order;
-    newOrder->productCodes = productCodes;
-    newOrder->quantity = quantity;
-    newOrder->Color = Color;
-    newOrder->Country = Country;
-    newOrder->customerName = customerName;
-    newOrder->customerAddress = customerAddress;
-    newOrder->phoneNumber = phoneNumber;
-    newOrder->orderDate = orderDate;
-    newOrder->next = nullptr;
+    newOrder->strProductCodes = strProductCodes;
+    newOrder->iQuantity = iQuantity;
+    newOrder->strColor = strColor;
+    newOrder->strCountry = strCountry;
+    newOrder->strCustomerName = strCustomerName;
+    newOrder->strCustomerAddress = strCustomerAddress;
+    newOrder->strPhoneNumber = strPhoneNumber;
+    newOrder->strOrderDate = strOrderDate;
+    newOrder->pNext = nullptr;
 
     // Định dạng orderNumber và lưu vào orderNumberStr
-    snprintf(newOrder->orderNumberStr, sizeof(newOrder->orderNumberStr), "%04d", Order::orderNumber++);
-    newOrder->orderNumber = Order::orderNumber;
+    snprintf(newOrder->cOrderNumberStr, sizeof(newOrder->cOrderNumberStr), "%04d", Order::iOrderNumber++);
+    newOrder->iOrderNumber = Order::iOrderNumber;
 
     // Thêm đơn hàng mới vào danh sách liên kết
-    if (head == nullptr)
+    if (pHead == nullptr)
     {
-        head = newOrder;
+        pHead = newOrder;
     }
     else
     {
-        Order *temp = head;
-        while (temp->next != nullptr)
+        Order *pTemp = pHead;
+        while (pTemp->pNext != nullptr)
         {
-            temp = temp->next;
+            pTemp = pTemp->pNext;
         }
-        temp->next = newOrder;
+        pTemp->pNext = newOrder;
     }
-    orderCount++;
+    iOrderCount++;
     std::cout << "Don Hang Dang Cho Xu Ly.\n";
 }
 
@@ -101,19 +101,19 @@ void DonHang::luuDonHang()
         return;
     }
 
-    Order *current = head;
-    while (current != nullptr)
+    Order *pCurrent = pHead;
+    while (pCurrent != nullptr)
     {
-        outFile << current->orderNumberStr;
-        outFile << " " << current->productCodes;
-        outFile << " " << current->quantity;
-        outFile << " " << current->Color;
-        outFile << " " << current->Country;
-        outFile << " " << current->customerName;
-        outFile << " " << current->customerAddress;
-        outFile << " " << current->phoneNumber;
-        outFile << " " << current->orderDate << "\n";
-        current = current->next;
+        outFile << pCurrent->cOrderNumberStr;
+        outFile << " " << pCurrent->strProductCodes;
+        outFile << " " << pCurrent->iQuantity;
+        outFile << " " << pCurrent->strColor;
+        outFile << " " << pCurrent->strCountry;
+        outFile << " " << pCurrent->strCustomerName;
+        outFile << " " << pCurrent->strCustomerAddress;
+        outFile << " " << pCurrent->strPhoneNumber;
+        outFile << " " << pCurrent->strOrderDate << "\n";
+        pCurrent = pCurrent->pNext;
     }
 
     outFile.close();
@@ -122,36 +122,36 @@ void DonHang::luuDonHang()
 // Hàm nhập thông tin đơn hàng từ người dùng
 void DonHang::nhapThongTinDonHang()
 {
-    std::string productCodes;
-    int quantity;
-    std::string Color;
-    std::string Country;
-    std::string customerName;
-    std::string customerAddress;
-    std::string phoneNumber;
-    std::string orderDate;
+    std::string strProductCodes;
+    int iQuantity;
+    std::string strColor;
+    std::string strCountry;
+    std::string strCustomerName;
+    std::string strCustomerAddress;
+    std::string strPhoneNumber;
+    std::string strOrderDate;
 
     std::cout << "Nhap ma san pham: ";
-    std::cin >> productCodes;
+    std::cin >> strProductCodes;
     std::cout << "Nhap so luong: ";
-    std::cin >> quantity;
+    std::cin >> iQuantity;
     std::cout << "Nhap mau sac: ";
-    std::cin >> Color;
+    std::cin >> strColor;
     std::cout << "Nhap quoc gia: ";
-    std::cin >> Country;
+    std::cin >> strCountry;
     std::cin.ignore(); // Bỏ qua ký tự newline còn lại trong bộ đệm
     std::cout << "Nhap ten khach hang: "; 
-    std::getline(std::cin, customerName);
+    std::getline(std::cin, strCustomerName);
     std::cout << "Nhap dia chi khach hang: ";
-    std::getline(std::cin, customerAddress);
+    std::getline(std::cin, strCustomerAddress);
     std::cout << "Nhap so dien thoai khach hang: ";
-    std::getline(std::cin, phoneNumber);
+    std::getline(std::cin, strPhoneNumber);
     std::cout << "Nhap ngay dat hang: ";
-    std::getline(std::cin, orderDate);
+    std::getline(std::cin, strOrderDate);
 
-    datHang(productCodes, quantity, Color, Country, customerName, customerAddress, phoneNumber, orderDate);
+    datHang(strProductCodes, iQuantity, strColor, strCountry, strCustomerName, strCustomerAddress, strPhoneNumber, strOrderDate);
 }
-void DonHang::capNhatSoLuongHangHoa(std::string productCodes, int quantityChange)
+void DonHang::capNhatSoLuongHangHoa(std::string strProductCodes, int iQuantityChange, std::string strCountry, std::string strColor)
 {
     std::ifstream inFile("DanhSachHangHoa.txt");
     if (!inFile)
@@ -167,18 +167,18 @@ void DonHang::capNhatSoLuongHangHoa(std::string productCodes, int quantityChange
         return;
     }
 
-    std::string orderNumber, code, country, color, date;
-    int quantity;
-    double totalamount;
+    std::string strOrderNumber, strCode, strTempCountry, strTempColor, strDate;
+    int iQuantity;
+    double dTotalAmount;
 
-    while (inFile >> orderNumber >> code >> country >> color >> totalamount >> date >> quantity)
+    while (inFile >> strOrderNumber >> strCode >> strTempCountry >> strTempColor >> dTotalAmount >> strDate >> iQuantity)
     {
-        if (code == productCodes)
+        if (strCode == strProductCodes && strTempCountry == strCountry && strTempColor == strColor)
         {
-            quantity += quantityChange;
+            iQuantity -= iQuantityChange;
         }
-        if (quantity)
-            tempFile << orderNumber << " " << code << " " << country << " " << color << " " << totalamount << " " << date << " " << quantity << "\n";
+        if (iQuantity)
+            tempFile << strOrderNumber << " " << strCode << " " << strTempCountry << " " << strTempColor << " " << dTotalAmount << " " << strDate << " " << iQuantity << "\n";
     }
 
     inFile.close();
@@ -189,10 +189,10 @@ void DonHang::capNhatSoLuongHangHoa(std::string productCodes, int quantityChange
 
     // Copy du lieu tu "TempDanhSachHangHoa.txt" vao "DanhSachHangHoa.txt"
     std::ifstream tempFileRead("TempDanhSachHangHoa.txt");
-    std::string line;
-    while (std::getline(tempFileRead, line))
+    std::string strLine;
+    while (std::getline(tempFileRead, strLine))
     {
-        danhSachHangHoaFile << line << "\n";
+        danhSachHangHoaFile << strLine << "\n";
     }
 
     tempFileRead.close();
@@ -205,91 +205,91 @@ void DonHang::capNhatSoLuongHangHoa(std::string productCodes, int quantityChange
 void DonHang::xuLyDonHang()
 {
     std::ifstream inFile("DonHang.txt");
-    std::string line;
+    std::string strLine;
     Order *newOrder = new Order();
-    while (std::getline(inFile, line))
+    while (std::getline(inFile, strLine))
     {
-        std::istringstream iss(line);
-        int orderNumber;
-        std::string productCodes;
-        int quantity;
-        std::string Color;
-        std::string Country;
-        std::string customerName;
-        std::string customerAddress;
-        std::string phoneNumber;
-        std::string orderDate;
-        if (iss >> orderNumber >> productCodes >> quantity >> Color >> Country >> customerName >> customerAddress >> phoneNumber >> orderDate)
+        std::istringstream iss(strLine);
+        int iOrderNumber;
+        std::string strProductCodes;
+        int iQuantity;
+        std::string strColor;
+        std::string strCountry;
+        std::string strCustomerName;
+        std::string strCustomerAddress;
+        std::string strPhoneNumber;
+        std::string strOrderDate;
+        if (iss >> iOrderNumber >> strProductCodes >> iQuantity >> strColor >> strCountry >> strCustomerName >> strCustomerAddress >> strPhoneNumber >> strOrderDate)
         {
             Order *newOrder = new Order();
-            newOrder->orderNumber = orderNumber;
-            newOrder->productCodes = productCodes;
-            newOrder->quantity = quantity;
-            newOrder->Color = Color;
-            newOrder->Country = Country;
-            newOrder->customerName = customerName;
-            newOrder->customerAddress = customerAddress;
-            newOrder->phoneNumber = phoneNumber;
-            newOrder->orderDate = orderDate;
-            snprintf(newOrder->orderNumberStr, sizeof(newOrder->orderNumberStr), "%04d", Order::orderNumber++);
-            newOrder->orderNumber = Order::orderNumber;
+            newOrder->iOrderNumber = iOrderNumber;
+            newOrder->strProductCodes = strProductCodes;
+            newOrder->iQuantity = iQuantity;
+            newOrder->strColor = strColor;
+            newOrder->strCountry = strCountry;
+            newOrder->strCustomerName = strCustomerName;
+            newOrder->strCustomerAddress = strCustomerAddress;
+            newOrder->strPhoneNumber = strPhoneNumber;
+            newOrder->strOrderDate = strOrderDate;
+            snprintf(newOrder->cOrderNumberStr, sizeof(newOrder->cOrderNumberStr), "%04d", Order::iOrderNumber++);
+            newOrder->iOrderNumber = Order::iOrderNumber;
 
             // Them don hang moi vao danh sach lien ket
-            if (head == nullptr)
+            if (pHead == nullptr)
             {
-                head = newOrder;
+                pHead = newOrder;
             }
             else
             {
-                Order *current = head;
-                while (current->next != nullptr)
+                Order *pCurrent = pHead;
+                while (pCurrent->pNext != nullptr)
                 {
-                    current = current->next;
+                    pCurrent = pCurrent->pNext;
                 }
-                current->next = newOrder;
+                pCurrent->pNext = newOrder;
             }
         }
     }
     inFile.close();
 
-    Order *current = head;
-    Order *previous = nullptr;
+    Order *pCurrent = pHead;
+    Order *pPrevious = nullptr;
     std::cout << "Xu ly don hang: 0001 " << std::endl;
-    while (current != nullptr)
+    while (pCurrent != nullptr)
     {
         // Xu ly don hang o day
         // Vi du: Hien thi thong tin don hang
         // Cap nhat so luong hang hoa trong file DanhSachHangHoa.txt
-        if (strcmp(current->orderNumberStr, "0001") == 0)
+        if (strcmp(pCurrent->cOrderNumberStr, "0001") == 0)
         {
-            capNhatSoLuongHangHoa(current->productCodes, -current->quantity);
+            capNhatSoLuongHangHoa(pCurrent->strProductCodes, pCurrent->iQuantity, pCurrent->strCountry, pCurrent->strColor);
         }
         else
         {
             std::ofstream outFile("TempDonHang.txt", std::ios::app);
-            int orderNumber = std::stoi(current->orderNumberStr);
-            orderNumber--;
-            snprintf(current->orderNumberStr, sizeof(current->orderNumberStr), "%04d", orderNumber);
-            current->orderNumber = orderNumber;
-            outFile << current->orderNumberStr;
-            outFile << " " << current->productCodes;
-            outFile << " " << current->quantity;    
-            outFile << " " << current->Color;
-            outFile << " " << current->Country;
-            outFile << " " << current->customerName;
-            outFile << " " << current->customerAddress;
-            outFile << " " << current->phoneNumber;
-            outFile << " " << current->orderDate << "\n";
+            int iOrderNumber = std::stoi(pCurrent->cOrderNumberStr);
+            iOrderNumber--;
+            snprintf(pCurrent->cOrderNumberStr, sizeof(pCurrent->cOrderNumberStr), "%04d", iOrderNumber);
+            pCurrent->iOrderNumber = iOrderNumber;
+            outFile << pCurrent->cOrderNumberStr;
+            outFile << " " << pCurrent->strProductCodes;
+            outFile << " " << pCurrent->iQuantity;    
+            outFile << " " << pCurrent->strColor;
+            outFile << " " << pCurrent->strCountry;
+            outFile << " " << pCurrent->strCustomerName;
+            outFile << " " << pCurrent->strCustomerAddress;
+            outFile << " " << pCurrent->strPhoneNumber;
+            outFile << " " << pCurrent->strOrderDate << "\n";
 
             outFile.close();
         }
 
         // Doc don hang tiep theo
-        previous = current;
-        current = current->next;
+        pPrevious = pCurrent;
+        pCurrent = pCurrent->pNext;
 
         // Xoa don hang da xu ly khoi danh sach
-        delete previous;
+        delete pPrevious;
     }
 
     // Doi ten file tam thanh ten file goc
@@ -299,9 +299,9 @@ void DonHang::xuLyDonHang()
 
     // Copy du lieu tu "TempDanhSachHangHoa.txt" vao "DanhSachHangHoa.txt"
     std::ifstream tempFileRead("TempDonHang.txt");
-    while (std::getline(tempFileRead, line))
+    while (std::getline(tempFileRead, strLine))
     {
-        danhSachHangHoaFile << line << "\n";
+        danhSachHangHoaFile << strLine << "\n";
     }
 
     tempFileRead.close();
