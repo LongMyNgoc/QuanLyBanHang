@@ -295,10 +295,10 @@ void Admin::renderXoaHangHoa()
     }
     std::cout << std::endl;
     int iChoice;
+    cin.ignore();
     string strMa;
     Loop:
     cout << "Nhap ma hang hoa ban muon xoa: ";
-    cin.ignore();
     getline(std::cin, strMa);
     if (strMa.length() != 4)
     {
@@ -340,9 +340,9 @@ void Admin::renderCapNhatSoLuongHangHoa(){
     cout << endl;
     string strMa;
     int iSoLuong;
+    cin.ignore();
     Loop:
     cout << "Nhap so ma hang hoa can cap nhat: ";
-    cin.ignore();
     getline(cin,strMa);
     if (strMa.length() != 4)
     {

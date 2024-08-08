@@ -41,7 +41,6 @@ void HangHoa::taoHangHoa(string strName, string strOrigin, string strColor, int 
     iFile << strID << " " << strName << " " << strOrigin << " " << strColor << " "
          << iPrice << " " << strEntryDate << " " << iAmount << endl;
     iFile.close();
-    HangHoa::sort();
 }
 
 

@@ -258,6 +258,8 @@ void UI::renderTimKiem()
 //Ham hien thi man hinh chuc nang xem danh sach hang hoa
 void UI::renderDSHangHoa() 
 {
+	HangHoa hanghoa;
+	hanghoa.sort();
 	system("cls");
 	getDefaultAttribute();
 	ifstream iFileOpen;
@@ -275,7 +277,6 @@ void UI::renderDSHangHoa()
 		}
 	}
 	cout << endl;
-	HangHoa hanghoa;
 	hanghoa.printList();
 	cout << endl;
 	int iChoice;
